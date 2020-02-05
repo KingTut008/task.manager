@@ -1,0 +1,15 @@
+<IfModule dir_module>
+    DirectoryIndex index.php
+
+RewriteEngine on
+RewriteBase /
+ 
+RewriteCond %{REQUEST_FILENAME} !-s [OR]
+RewriteCond %{REQUEST_FILENAME} !-l [OR]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^route/(.*)$ route/index.php [NC,L]
+</IfModule>
+
+php_value session.name session_id
+php_value session.gc_maxlifetime 1200
+php_value session.cookie_lifetime 1200
