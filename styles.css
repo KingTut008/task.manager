@@ -199,3 +199,53 @@ a:hover {
 .iat label {
 	display: block;
 }
+
+.add-massege {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    font-weight: bold;
+    color: #efefef;
+    text-decoration: none;
+    width: 200px;
+    border-radius: 10px;
+    background-color: #00AA00;
+}
+
+.add-massege-no {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    font-weight: bold;
+    color: #efefef;
+    text-decoration: none;
+    width: 200px;
+    border-radius: 10px;
+    background-color: rgb(170, 0, 0);
+}
+
+.add-massege:hover{
+    background-color: #00ff00;
+    color: #fff;
+    text-decoration: none;
+}
+.massege-conteiner {
+    display: flex;
+}
+.massege-status {
+    width: 50%;
+}
+.massege-status:first-child {
+    margin-right: 5px;
+}
+.massege-status:last-child {
+    margin-left: 5px;
+}
+.massege-post {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+}
