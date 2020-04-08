@@ -4,11 +4,11 @@ if(isset($_SESSION['login'])) {
         $dataPost = showViewPost($_GET['id'], $_SESSION['login']);  
         if (is_array($dataPost))  {
 ?>
-<p>Тема сообщения: <?= $dataPost['description']?></p>
-<p>Дата отправки: <?= $dataPost['date']?></p>
-<p>Имя отправителя: <?= $dataPost['recipientName']?></p>
-<p>Email отправителя: <?= $dataPost['recipientEmail']?></p>
-<p>Сообщение: <?= $dataPost['text']?></p>
+    <p>Тема сообщения: <?= $dataPost['description']?></p>
+    <p>Дата отправки: <?= $dataPost['date']?></p>
+    <p>Имя отправителя: <?= $dataPost['senderName']?></p>
+    <p>Email отправителя: <?= $dataPost['senderEmail']?></p>
+    <p>Сообщение: <?= $dataPost['text']?></p>
 <?php } else { ?>
         <p><?= $dataPost ?></p>
     <?php    }
