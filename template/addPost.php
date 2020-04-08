@@ -1,17 +1,17 @@
 <?php 
 if(isset($_POST['message'])) {
-    $sendMessage = sendMassege($_POST, $_SESSION['login']);
+    $sendMessage = sendMessage($_POST, $_SESSION['login']);
 }
 ?>
 <h2>Отправить сообщение:</h2>
 <?php
-if(isset($_SESSION['login'])) { 
+if(checkAuthorization()) { 
     $users = inputUsersData($_SESSION['login']);
     $cats = inputCatData();
     ?>
     <form action="/route/posts/add/" method="POST">
         <label>Заголовок:</label></br>
-        <input type="text" name="header" id="header" maxlength="255" required></br>
+        <input type="text" name="header" id="header" maxlength="100" required></br>
         <label>Cообщение:</label></br>
         <textarea name="text" id="" cols="30" rows="10" required></textarea></br>
         <label>Получатель:</label></br>

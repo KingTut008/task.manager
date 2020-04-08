@@ -1,4 +1,8 @@
 <?php
+function checkAuthorization () {
+    return isset($_SESSION['login']);
+}
+
 function showContentProfile($login){
     $connect = mysqli_connect('localhost', 'mysql', 'mysql', 'task_manager');
     $result = mysqli_query ($connect, "SELECT users.name, users.email, users.phone, users.password, GROUP_CONCAT(groups.name) as 'groupName' FROM users
@@ -13,7 +17,8 @@ function showContentProfile($login){
 function showContentPost($login){
     $massMasseges = array();
     $connect = mysqli_connect('localhost', 'mysql', 'mysql', 'task_manager');
-    $result = mysqli_query($connect, "SELECT masseges.id, masseges.description, masseges.text, masseges.date, masseges.read, categories.color ,
+    $result = mysqli_query($connect, "SELECT masseges.id, masseges.description, masseges.text, masseges.date, masseges.read, 
+                                            cat_color.value as 'color',
                                             categories.name as 'catName',
                                             users.name as 'senderName',
                                             users_two.name as 'recipientName',
@@ -24,6 +29,7 @@ function showContentPost($login){
                                             LEFT JOIN `users` as users_two ON users_two.id = masseges.recipient_id
                                             LEFT JOIN `group_user` ON group_user.id_user = masseges.recipient_id
                                             LEFT JOIN `groups` ON group_user.id_group = groups.id
+                                            LEFT JOIN `cat_color` ON categories.color_id = cat_color.id
                                             WHERE users_two.name = '$login'
                                             GROUP BY masseges.id, masseges.description, masseges.text, masseges.date, masseges.read, categories.name, users.name,  users_two.name
                                             ORDER BY masseges.read asc");  
@@ -76,7 +82,7 @@ function inputCatData() {
     return $cats;
 }
 
-function sendMassege ($message, $login) {
+function sendMessage ($message, $login) {
     $connect = mysqli_connect('localhost', 'mysql', 'mysql', 'task_manager');
     $id_user = mysqli_query($connect, "SELECT id FROM users WHERE name = '$login'");
     $id = mysqli_fetch_assoc($id_user);
@@ -85,14 +91,28 @@ function sendMassege ($message, $login) {
     $user = $id['id'];
     $cat = $message['cat'];
     $recipien = $message['recipien'];
-    $header = htmlspecialchars($message['header']);
-    $text = htmlspecialchars($message['text']);
+    $header = mysqli_real_escape_string($connect, $message['header']);
+    $text = mysqli_real_escape_string($connect, $message['text']);
 
-    $sendMessage = mysqli_query($connect, "INSERT INTO masseges (cat_id, sender_id, recipient_id, description, text, date) VALUES 
-                                ('$cat','$user','$recipien', '$header', '$text','$date')");
-    
+    if ($user != $recipien) {
+        echo strlen($header);
+        if (strlen($header) <= 255) {
+            $result = mysqli_query($connect, "INSERT INTO masseges (cat_id, sender_id, recipient_id, description, text, date) VALUES 
+                                    ('$cat','$user','$recipien', '$header', '$text','$date')");
+            if ($result) {
+                $sendMessage = "Cообщение отправленно";
+            } else {
+                $sendMessage = "Произошла ошибка";
+            }
+        } else {
+            $sendMessage = "Слишком длинный заголовок";
+        }
+    } else {
+        $sendMessage = "Вы не можете отправлять самому себе";
+    }
+     
     mysqli_close($connect); 
-    return $sendMessage ? "Cообщение отправлено" : "Произошла ошибка";
+    return $sendMessage;
 }
 
 function showContent($menuItems){

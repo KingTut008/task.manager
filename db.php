@@ -1,14 +1,14 @@
 <?php
-$hots = "localhost";
-$user = "mysql";
-$password = "mysql";
-$dbName = "task_manager";
+// $hots = "localhost";
+// $user = "mysql";
+// $password = "mysql";
+// $dbName = "task_manager";
 
-$connect = mysqli_connect($hots, $user, $password, $dbName);
+// $connect = mysqli_connect($hots, $user, $password, $dbName);
 
-if(mysqli_connect_error()){
-    echo mysqli_connect_error();
-} else {
+// if(mysqli_connect_error()){
+//     echo mysqli_connect_error();
+// } else {
     // $date = date("Y-m-d H:i:s",time());
     // $result = mysqli_query($connect, "INSERT INTO masseges (cat_id, sender_id, recipient_id, description, text, date) VALUES 
     //                                 ('5','1','2', 'Первое письмо', 'письмо иван петру по работе','$date'),
@@ -58,15 +58,20 @@ if(mysqli_connect_error()){
         //                                         LEFT JOIN `groups` ON group_user.id_group = groups.id
         //                                         WHERE masseges.id = '5'");    
         $result = mysqli_query($connect, "UPDATE masseges SET read = '1' WHERE id = '5' ");
-    if(mysqli_error($connect))
-    {
-        echo mysqli_error($connect);
-    }
-    // echo "<pre>";
-    //     var_dump(mysqli_fetch_assoc($result));
-    // echo "</pre>";
+//     if(mysqli_error($connect))
+//     {
+//         echo mysqli_error($connect);
+//     }
+//     // echo "<pre>";
+//     //     var_dump(mysqli_fetch_assoc($result));
+//     // echo "</pre>";
 
-}
-mysqli_close($connect);
+// }
+// mysqli_close($connect);
+
+var_dump(password_hash("123321", PASSWORD_DEFAULT));
+var_dump(password_hash("321123", PASSWORD_DEFAULT));
+var_dump(password_hash("213321", PASSWORD_DEFAULT));
+var_dump(password_hash("312321", PASSWORD_DEFAULT));
 
 ?>

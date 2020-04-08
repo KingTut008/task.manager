@@ -1,5 +1,5 @@
 <?php 
-if(isset($_SESSION['login'])) {
+if(checkAuthorization()) {
     $dataProfile = showContentProfile($_SESSION['login']); 
 ?>
 <p>Ваше имя: <?= $dataProfile['name']?></p>

@@ -1,5 +1,5 @@
 <?php 
-if(isset($_SESSION['login'])) {
+if(checkAuthorization()) {
     if(isset($_GET['id'])) {
         $dataPost = showViewPost($_GET['id'], $_SESSION['login']);  
         if (is_array($dataPost))  {

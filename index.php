@@ -16,10 +16,12 @@ if (isset($_POST['send'])) {
     } else {
         $login = trim($_POST['login']);
         $password = trim($_POST['password']);
-        $result = mysqli_query($connect, "SELECT name, password FROM users WHERE name='$login'");
+
+        $escapeLogin = mysqli_real_escape_string($connect, $login);
+        $result = mysqli_query($connect, "SELECT name, password FROM users WHERE name='$escapeLogin'");
         $user_data = mysqli_fetch_assoc($result);
 
-        if($user_data['password'] == $password){
+        if(password_verify($password, $user_data['password'])){
             setcookie('loginName', $login, time() + 60 * 60 * 24 * 30, '/');
             $_SESSION['login'] = $login;
             $_SESSION['loginKey'] = md5(rand(0,1000000));
