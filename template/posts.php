@@ -1,33 +1,19 @@
 <?php
-if(checkAuthorization()) {
-    $massMasseges = showContentPost($_SESSION['login']);?>
+if(checkAuthorization('status')) {
+    $massMessages = showContentPost($_SESSION['login']);?>
     <div>
-        <?php if($massMasseges[0]['groupName'] == 'register,validate' || $massMasseges[0]['groupName'] == 'validate,register' ) { ?>
+        <?php if(checkAuthorization('group')) { ?>
         <div>
             <a class="add-massege" href="/route/posts/add/">Написать сообщение</a>
         </div>
         <div class="massege-conteiner">
             <div class="massege-status">
                 <h3>Не прочитанные:</h3>
-                    <?php for ($i = 0; $i < count($massMasseges); $i++){ 
-                        if (!$massMasseges[$i]['read']) {?>
-                            <div class="massege-post" style="border: 1px solid <?= $massMasseges[$i]['color']?>;">
-                                <div><a href='/route/posts/view/?id=<?= $massMasseges[$i]['id']?>'><?= $massMasseges[$i]['description']?> / <?= $massMasseges[$i]['catName']?></div>
-                                <div><?= $massMasseges[$i]['read']?> / <?= $massMasseges[$i]['date']?></a></div>
-                            </div> 
-                    <?php } 
-                        } ?>  
+                    <?php showPostsList($massMessages, 0)?>  
             </div>
             <div class="massege-status">
                 <h3>Прочитанные:</h3>
-                    <?php for ($i = 0; $i < count($massMasseges); $i++){ 
-                        if ($massMasseges[$i]['read']) {?>
-                            <div class="massege-post" style="border: 1px solid <?= $massMasseges[$i]['color']?>;">
-                                <div><a href='/route/posts/view/?id=<?= $massMasseges[$i]['id']?>'><?= $massMasseges[$i]['description']?> / <?= $massMasseges[$i]['catName']?></div>
-                                <div><?= $massMasseges[$i]['read']?> / <?= $massMasseges[$i]['date']?></a></div>
-                            </div> 
-                    <?php } 
-                        } ?>  
+                    <?php showPostsList($massMessages, 1)?> 
             </div>    
         </div>
         <?php } else { ?>

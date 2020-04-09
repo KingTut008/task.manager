@@ -5,7 +5,7 @@ if(isset($_POST['message'])) {
 ?>
 <h2>Отправить сообщение:</h2>
 <?php
-if(checkAuthorization()) { 
+if(checkAuthorization('group')) { 
     $users = inputUsersData($_SESSION['login']);
     $cats = inputCatData();
     ?>

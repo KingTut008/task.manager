@@ -11,6 +11,8 @@ if(isset($_GET['login']) && $_GET['login'] == 'exit') {
     setcookie('loginKey', $_COOKIE['loginKey'], time() - 1000, '/');
 }
 
+require_once $_SERVER['DOCUMENT_ROOT'] . "/moduls/dbconnect.php";
+
 ?>
 
 <?php

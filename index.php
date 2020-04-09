@@ -8,7 +8,9 @@ if (isset($_SESSION['loginKey'])){
 error_reporting(E_ALL);
 $message = false;
 
-$connect = mysqli_connect('localhost','mysql','mysql','task_manager');
+require_once $_SERVER['DOCUMENT_ROOT'] . "/moduls/dbconnect.php";
+
+$connect = dbconnect();
 
 if (isset($_POST['send'])) {
     if(mysqli_connect_error()){
@@ -18,12 +20,17 @@ if (isset($_POST['send'])) {
         $password = trim($_POST['password']);
 
         $escapeLogin = mysqli_real_escape_string($connect, $login);
-        $result = mysqli_query($connect, "SELECT name, password FROM users WHERE name='$escapeLogin'");
+        $result = mysqli_query($connect, "SELECT users.name, users.password, GROUP_CONCAT(groups.name) as 'groupName' FROM users
+                                            LEFT JOIN `group_user` ON group_user.id_user = users.id
+                                            LEFT JOIN `groups` ON group_user.id_group = groups.id  
+                                            WHERE users.name='$escapeLogin'
+                                            GROUP BY users.name, users.password");
         $user_data = mysqli_fetch_assoc($result);
 
         if(password_verify($password, $user_data['password'])){
             setcookie('loginName', $login, time() + 60 * 60 * 24 * 30, '/');
             $_SESSION['login'] = $login;
+            $_SESSION['groupName'] = $user_data['groupName'];
             $_SESSION['loginKey'] = md5(rand(0,1000000));
             setcookie('loginKey', $_SESSION['loginKey'], time() + 60 * 20, '/');
             $message = true;

@@ -1,11 +1,11 @@
 <?php 
-if(checkAuthorization()) {
+if(checkAuthorization('group')) {
     if(isset($_GET['id'])) {
         $dataPost = showViewPost($_GET['id'], $_SESSION['login']);  
         if (is_array($dataPost))  {
 ?>
     <p>Тема сообщения: <?= $dataPost['description']?></p>
-    <p>Дата отправки: <?= $dataPost['date']?></p>
+    <p>Дата отправки: <?= $dataPost['created_at']?></p>
     <p>Имя отправителя: <?= $dataPost['senderName']?></p>
     <p>Email отправителя: <?= $dataPost['senderEmail']?></p>
     <p>Сообщение: <?= $dataPost['text']?></p>
